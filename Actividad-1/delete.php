@@ -19,21 +19,21 @@
     }
 
     //Verificando, obviamente es inseguro papi, pero ya que.
-    $query_c = "SELECT count(*) profile FROM profile WHERE user_id = :id";
+    $query_c = "SELECT count(*) profile FROM profile WHERE profile_id = :id";
     $profile_c = $pdo -> prepare($query_c);
     $profile_c -> execute(array(
         ':id' => $_GET["profile_id"]
     ));
     $result_c = $profile_c -> fetch(PDO::FETCH_ASSOC);
 
-    if (!$result_c["profile"] == 1) {
+    if (!$result_c["profile"] >= 1) {
         $_SESSION["notify"] = "<p style='color: red;'>Could not load profile</p>";
         header("Location: index.php");
         return;
     }
 
     //Ahora si, solicitando datos del perfil.
-    $query_p = "SELECT first_name, last_name FROM profile WHERE user_id = :id";
+    $query_p = "SELECT first_name, last_name FROM profile WHERE profile_id = :id";
     $profile = $pdo -> prepare($query_p);
     $profile -> execute(array(
         ':id' => $_GET["profile_id"]
@@ -42,7 +42,7 @@
 
     //Eliminando perfil, tambien es inseguro papi.
     if (isset($_POST["delete"])) {
-        $query_d = "DELETE FROM profile WHERE user_id = :id";
+        $query_d = "DELETE FROM profile WHERE profile_id = :id";
         $profile_d = $pdo -> prepare($query_d);
         $profile_d -> execute(array(
             ':id' => $_GET["profile_id"]
@@ -58,6 +58,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Darlin Daniel Arias Méndez</title>
+    <link rel="stylesheet" href="Assets/css/styles-login-profile.css">
 </head>
 <body>
     <div class="container">

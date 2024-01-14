@@ -30,13 +30,6 @@
                 <a href="logout.php">Logout</a><br>
                 <div class="tabla">
                     <?php
-                        //Query para los perfiles
-                        $query_profiles = "SELECT * FROM profile WHERE user_id = :id;";
-                        $query_p = $pdo -> prepare($query_profiles);
-                        $query_p -> execute(array(
-                            ':id' => $_SESSION["user_id"]
-                        ));
-
                         //Query para el conteo de los perfiles
                         $query_count = "SELECT count(*) perfiles FROM profile WHERE user_id = :id;";
                         $query_c = $pdo -> prepare($query_count);
@@ -44,6 +37,13 @@
                             ':id' => $_SESSION["user_id"]
                         ));
                         $result_c = $query_c -> fetch(PDO::FETCH_ASSOC);
+
+                        //Query para los perfiles
+                        $query_profiles = "SELECT * FROM profile WHERE user_id = :id;";
+                        $query_p = $pdo -> prepare($query_profiles);
+                        $query_p -> execute(array(
+                            ':id' => $_SESSION["user_id"]
+                        ));
 
                         if ($result_c["perfiles"] >= 1) { ?>
                             <table>
@@ -55,9 +55,9 @@
                                 <?php
                                     while ($result_p = $query_p -> fetch(PDO::FETCH_ASSOC)) { ?>
                                         <tr>
-                                            <td><a href="view.php?profile_id=<?= $_SESSION['user_id'] ?>"><?= $result_p["first_name"] . " " . $result_p["last_name"]; ?></a></td>
+                                            <td><a href="view.php?profile_id=<?= $_SESSION["user_id"] ?>"><?= $result_p["first_name"] . " " . $result_p["last_name"]; ?></a></td>
                                             <td><?= $result_p["headline"] ?></td>
-                                            <td><a href="edit.php?profile_id=<?= $_SESSION['user_id'] ?>">Edit</a> <a href="delete.php?profile_id=<?= $_SESSION['user_id'] ?>">Delete</a></td>
+                                            <td><a href="edit.php?profile_id=<?= $result_p["profile_id"] ?>">Edit</a> <a href="delete.php?profile_id=<?= $result_p["profile_id"] ?>">Delete</a></td>
                                         </tr>
                                     <?php }
                                 ?>
