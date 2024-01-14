@@ -1,8 +1,6 @@
 <?php
     session_start();
     require_once("pdo.php");
-    $_SESSION["user"] = "algo";
-    $_SESSION["user_id"] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
