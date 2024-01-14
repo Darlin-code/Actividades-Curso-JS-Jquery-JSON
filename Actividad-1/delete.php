@@ -1,6 +1,11 @@
 <?php
     session_start();
     require_once("pdo.php");
+
+    if (!isset($_SESSION["user"])) {
+        die("ACCESS DENIED");
+    } 
+
     if (!isset($_GET["profile_id"])) {
         $_SESSION["notify"] = "<p style='color: red;'>Missing profile_id</p>";
         header("Location: index.php");
