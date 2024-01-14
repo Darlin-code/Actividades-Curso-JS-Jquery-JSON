@@ -21,6 +21,12 @@
         <?php } else { ?>
             <div class="container">
                 <h1>Darlin Daniel Arias Méndez's Resume Registry</h1>
+                <?php
+                    if (isset($_SESSION["notify"])) {
+                        echo $_SESSION["notify"];
+                        unset($_SESSION["notify"]);
+                    }
+                ?>
                 <a href="logout.php">Logout</a><br>
                 <a href="add.php">Add New Entry</a>
                 <p><b>Note: </b>Nothing</p>
