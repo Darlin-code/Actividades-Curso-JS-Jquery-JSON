@@ -1,6 +1,8 @@
 <?php
     session_start();
     require_once("pdo.php");
+    $_SESSION["user"] = "algo";
+    $_SESSION["user_id"] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +30,40 @@
                     }
                 ?>
                 <a href="logout.php">Logout</a><br>
+                <div class="tabla">
+                    <?php
+                        //Query para los perfiles
+                        $query_profiles = "SELECT * FROM profile WHERE user_id = :id;";
+                        $query_p = $pdo -> prepare($query_profiles);
+                        $query_p -> execute(array(
+                            ':id' => $_SESSION["user_id"]
+                        ));
+                        $result_p = $query_p -> fetch(PDO::FETCH_ASSOC);
+
+                        //Query para el conteo de los perfiles
+                        $query_count = "SELECT count(*) perfiles FROM profile WHERE user_id = :id;";
+                        $query_c = $pdo -> prepare($query_count);
+                        $query_c -> execute(array(
+                            ':id' => $_SESSION["user_id"]
+                        ));
+                        $result_c = $query_c -> fetch(PDO::FETCH_ASSOC);
+
+                        if ($result_c["perfiles"] >= 1) { ?>
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Headline</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="view.php?profile_id=<?= $_SESSION['user_id'] ?>"><?= $result_p["first_name"] . " " . $result_p["last_name"]; ?></a></td>
+                                    <td><?= $result_p["headline"] ?></td>
+                                    <td><a href="edit.php?profile_id=<?= $_SESSION['user_id'] ?>">Edit</a> <a href="delete.php?profile_id=<?= $_SESSION['user_id'] ?>">Delete</a></td>
+                                </tr>
+                            </table>
+                        <?php }
+                    ?>
+                </div>
                 <a href="add.php">Add New Entry</a>
                 <p><b>Note: </b>Nothing</p>
             </div>

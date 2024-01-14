@@ -36,6 +36,21 @@
     color: var(--link-color);
 }
 
-.container p, a {
-    margin: 15px 10px;
+.container a, p {
+    margin: 10px 10px;
+}
+
+.tabla {
+    color: var(--text-color);
+    margin: 10px 10px;
+    text-align: center;
+}
+
+.tabla tr, th, td {
+    border: 1px solid var(--text-color);
+    padding: 5px;
+}
+
+.tabla a {
+    margin: unset;
 }
