@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once("pdo.php");
 ?>
 <!DOCTYPE html>
@@ -10,10 +11,21 @@
     <link rel="stylesheet" href="assets/css/styles-general.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Darlin Daniel Arias Méndez's Resume Registry</h1>
-        <a href="login.php">Please log in</a>
-        <p><b>Note: </b>Nothing</p>
-    </div>
+    <?php
+        if (! isset($_SESSION["user"])) { ?>
+            <div class="container">
+                <h1>Darlin Daniel Arias Méndez's Resume Registry</h1>
+                <a href="login.php">Please log in</a>
+                <p><b>Note: </b>Nothing</p>
+            </div>
+        <?php } else { ?>
+            <div class="container">
+                <h1>Darlin Daniel Arias Méndez's Resume Registry</h1>
+                <a href="logout.php">Logout</a><br>
+                <a href="add.php">Add New Entry</a>
+                <p><b>Note: </b>Nothing</p>
+            </div>
+        <?php }
+    ?>
 </body>
 </html>
