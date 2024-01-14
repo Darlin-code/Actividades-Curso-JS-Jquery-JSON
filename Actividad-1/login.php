@@ -7,12 +7,12 @@
         return;
     }
 
-    if (isset($_POST["email"]) && isset($_POST["password"])) {
+    if (isset($_POST["email"]) && isset($_POST["pass"])) {
         $query = "SELECT count(*) cuenta FROM users WHERE email = :em AND password = :pw";
         $query_c = $pdo -> prepare($query);
         $query_c -> execute(array(
             ':em' => htmlentities($_POST["email"]),
-            ':pw' => htmlentities($_POST["password"])
+            ':pw' => htmlentities($_POST["pass"])
         ));
         $cuenta = $query_c -> fetch(PDO::FETCH_ASSOC);
 
@@ -25,7 +25,7 @@
             $success = $pdo -> prepare($query_success);
             $success -> execute(array(
                 ':em' => htmlentities($_POST["email"]),
-                ':pw' => htmlentities($_POST["password"])
+                ':pw' => htmlentities($_POST["pass"])
             ));
             $account = $success -> fetch(PDO::FETCH_ASSOC);
             $_SESSION["user"] = $account["name"];
@@ -57,7 +57,7 @@
                 Email: <input type="text" name="email" id="email">
             </label><br>
             <label for="password">
-                Password: <input type="text" name="password" id="password">
+                Password: <input type="text" name="pass" id="password">
             </label><br>
             <button type="submit" onclick="return doValidate()">Log In</button>
             <button type="submit" name="cancel">Cancel</button>

@@ -93,7 +93,7 @@
             <label for="summary" id="label-text">
                 Summary: <br><textarea name="summary" id="summary" cols="60" rows="10"><?= $values["summary"] ?></textarea>
             </label><br>
-            <button type="submit">Add</button>
+            <button type="submit">Save</button>
             <button type="submit" name="cancel">Cancel</button>
         </form>
     </div>
