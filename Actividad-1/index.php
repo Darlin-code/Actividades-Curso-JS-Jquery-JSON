@@ -36,7 +36,6 @@
                         $query_p -> execute(array(
                             ':id' => $_SESSION["user_id"]
                         ));
-                        $result_p = $query_p -> fetch(PDO::FETCH_ASSOC);
 
                         //Query para el conteo de los perfiles
                         $query_count = "SELECT count(*) perfiles FROM profile WHERE user_id = :id;";
@@ -53,11 +52,15 @@
                                     <th>Headline</th>
                                     <th>Action</th>
                                 </tr>
-                                <tr>
-                                    <td><a href="view.php?profile_id=<?= $_SESSION['user_id'] ?>"><?= $result_p["first_name"] . " " . $result_p["last_name"]; ?></a></td>
-                                    <td><?= $result_p["headline"] ?></td>
-                                    <td><a href="edit.php?profile_id=<?= $_SESSION['user_id'] ?>">Edit</a> <a href="delete.php?profile_id=<?= $_SESSION['user_id'] ?>">Delete</a></td>
-                                </tr>
+                                <?php
+                                    while ($result_p = $query_p -> fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <tr>
+                                            <td><a href="view.php?profile_id=<?= $_SESSION['user_id'] ?>"><?= $result_p["first_name"] . " " . $result_p["last_name"]; ?></a></td>
+                                            <td><?= $result_p["headline"] ?></td>
+                                            <td><a href="edit.php?profile_id=<?= $_SESSION['user_id'] ?>">Edit</a> <a href="delete.php?profile_id=<?= $_SESSION['user_id'] ?>">Delete</a></td>
+                                        </tr>
+                                    <?php }
+                                ?>
                             </table>
                         <?php }
                     ?>
