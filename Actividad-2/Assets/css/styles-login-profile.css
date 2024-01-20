@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Muli;
+    background-color: var(--background);
+}
+
+:root {
+    --background: #181a1b;
+    --link-color: #6998a0;
+    --text-color: #c8c3bc;
+}
+
+@font-face {
+    font-family: Muli;
+    src: url("../Font/Muli.ttf");
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.container h1 {
+    color: var(--text-color);
+    margin: 10px;
+}
+
+.container label, input, button, p {
+    color: var(--text-color);
+    margin: 7px;
+}
+
+.container input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid grey;
+}
+
+.container button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+}
+
+.container textarea {
+    margin: 10px 10px;
+    padding: 5px;
+    border-radius: 5px;
+    color: var(--text-color);
+}

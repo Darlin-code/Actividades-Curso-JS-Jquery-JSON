@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Muli;
+    background-color: var(--background);
+}
+
+:root {
+    --background: #181a1b;
+    --link-color: #6998a0;
+    --text-color: #c8c3bc;
+}
+
+@font-face {
+    font-family: Muli;
+    src: url("../Font/Muli.ttf");
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.container h1 {
+    color: var(--text-color);
+    margin: 10px 10px;
+}
+
+.container p {
+    color: var(--text-color);
+}
+
+.container a {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+.container a, p {
+    margin: 10px 10px;
+}
+
+.tabla {
+    color: var(--text-color);
+    margin: 10px 10px;
+    text-align: center;
+}
+
+.tabla tr, th, td {
+    border: 1px solid var(--text-color);
+    padding: 5px;
+}
+
+.tabla a {
+    margin: unset;
+}
