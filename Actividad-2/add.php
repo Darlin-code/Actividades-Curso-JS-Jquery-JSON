@@ -32,27 +32,39 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["e
             ':sm' => htmlentities($_POST["summary"])
         ));
 
-        $rank = 1;
-        for ($i = 1; $i <= 9; $i++) {
-            if (!isset($_POST["year" . $i])) continue;
-            if (!isset($_POST["desc" . $i])) continue;
-            $year = $_POST["year" . $i];
-            $desc = $_POST["desc" . $i];
+        if (isset($_POST["year1"]) && isset($_POST["desc1"])) {
+            //Validando los positions
+            for ($i = 1; $i <= 9; $i++) {
+                if (!isset($_POST["year" . $i])) continue;
+                if (!isset($_POST["desc" . $i])) continue;
+                $year = $_POST["year" . $i];
+                $desc = $_POST["desc" . $i];
 
-            if (empty($year) || empty($_POST[$desc])) {
-                $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
-                header("Location: add.php");
-                return;
+                if (empty($year) || empty($desc)) {
+                    $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
+                    header("Location: add.php");
+                    return;
+                }
+
+                if (! is_numeric($year)) {
+                    $_SESSION["notify"] = "<p style='color: red'>Position year must be numeric</p>";
+                    header("Location: add.php");
+                    return;
+                }
             }
 
-            $query_position = $pdo -> prepare("INSERT INTO position (profile_id, rank, year, desciption) VALUES (:pid, :rank, :year, :desc)");
-            $query_position -> execute(array(
-                ':pid' => $_SESSION["user_id"],
-                ':rank' => $rank,
-                ':year' => $year,
-                ':desc' => $desc
-            ));
-            $rank++;
+            $rank = 1;
+            for ($i = 1; $i <= 9; $i++) {
+                $query_position = "INSERT INTO position (profile_id, rank, year, description) VALUES (:pid, :rank, :year, :desc)";
+                $insert_position = $pdo -> prepare($query_position);
+                $insert_position -> execute(array(
+                    ':pid' => $_SESSION["user_id"],
+                    ':rank' => $rank,
+                    ':year' => $_POST["year$i"], 
+                    ':desc' => $_POST["desc$i"]
+                ));
+                $rank++;
+            }   
         }
 
         $_SESSION["notify"] = "<p style='color: green;'>Profile added</p>";
