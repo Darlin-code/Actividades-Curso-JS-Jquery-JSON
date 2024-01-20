@@ -12,7 +12,7 @@ if (isset($_POST["cancel"])) {
 }
 
 if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["email"]) && isset($_POST["headline"]) && isset($_POST["summary"])) {
-    if (empty($_POST["first_name"]) || empty($_POST["last_name"]) || empty($_POST["email"]) || empty($_POST["headline"]) || empty($_POST["summary"]) || empty($_POST["year"]) || empty($_POST["desc"])) {
+    if (empty($_POST["first_name"]) || empty($_POST["last_name"]) || empty($_POST["email"]) || empty($_POST["headline"]) || empty($_POST["summary"])) {
         $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
         header("Location: add.php");
         return;
@@ -38,6 +38,12 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["e
             if (!isset($_POST["desc" . $i])) continue;
             $year = $_POST["year" . $i];
             $desc = $_POST["desc" . $i];
+
+            if (empty($year) || empty($_POST[$desc])) {
+                $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
+                header("Location: add.php");
+                return;
+            }
 
             $query_position = $pdo -> prepare("INSERT INTO position (profile_id, rank, year, desciption) VALUES (:pid, :rank, :year, :desc)");
             $query_position -> execute(array(
