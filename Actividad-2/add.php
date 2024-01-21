@@ -1,77 +1,66 @@
 <?php
-session_start();
-require_once("pdo.php");
+    session_start();
+    require_once("pdo.php");
+    require_once("util.php");
 
-if (!isset($_SESSION["user"])) {
-    die("ACCESS DENIED");
-}
+    if (!isset($_SESSION["user"])) {
+        die("ACCESS DENIED");
+    }
 
-if (isset($_POST["cancel"])) {
-    header("Location: index.php");
-    return;
-}
-
-if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["email"]) && isset($_POST["headline"]) && isset($_POST["summary"])) {
-    if (empty($_POST["first_name"]) || empty($_POST["last_name"]) || empty($_POST["email"]) || empty($_POST["headline"]) || empty($_POST["summary"])) {
-        $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
-        header("Location: add.php");
-        return;
-    } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-        $_SESSION["notify"] = "<p style='color: red'>Email address must contain @</p>";
-        header("Location: add.php");
-        return;
-    } else {
-        $query = "INSERT INTO profile (user_id, first_name, last_name, email, headline, summary) VALUES (:id, :fnm, :lnm, :em, :hln, :sm)";
-        $insert_p = $pdo->prepare($query);
-        $insert_p->execute(array(
-            ':id' => $_SESSION["user_id"],
-            ':fnm' => htmlentities($_POST["first_name"]),
-            ':lnm' => htmlentities($_POST["last_name"]),
-            ':em' => htmlentities($_POST["email"]),
-            ':hln' => htmlentities($_POST["headline"]),
-            ':sm' => htmlentities($_POST["summary"])
-        ));
-
-        if (isset($_POST["year1"]) && isset($_POST["desc1"])) {
-            //Validando los positions
-            for ($i = 1; $i <= 9; $i++) {
-                if (!isset($_POST["year" . $i])) continue;
-                if (!isset($_POST["desc" . $i])) continue;
-                $year = $_POST["year" . $i];
-                $desc = $_POST["desc" . $i];
-
-                if (empty($year) || empty($desc)) {
-                    $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
-                    header("Location: add.php");
-                    return;
-                }
-
-                if (! is_numeric($year)) {
-                    $_SESSION["notify"] = "<p style='color: red'>Position year must be numeric</p>";
-                    header("Location: add.php");
-                    return;
-                }
-            }
-
-            $rank = 1;
-            for ($i = 1; $i <= 9; $i++) {
-                $query_position = "INSERT INTO position (profile_id, rank, year, description) VALUES (:pid, :rank, :year, :desc)";
-                $insert_position = $pdo -> prepare($query_position);
-                $insert_position -> execute(array(
-                    ':pid' => $_SESSION["user_id"],
-                    ':rank' => $rank,
-                    ':year' => $_POST["year$i"], 
-                    ':desc' => $_POST["desc$i"]
-                ));
-                $rank++;
-            }   
-        }
-
-        $_SESSION["notify"] = "<p style='color: green;'>Profile added</p>";
+    if (isset($_POST["cancel"])) {
         header("Location: index.php");
         return;
     }
-}
+
+    if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["email"]) && isset($_POST["headline"]) && isset($_POST["summary"])) {
+        if (empty($_POST["first_name"]) || empty($_POST["last_name"]) || empty($_POST["email"]) || empty($_POST["headline"]) || empty($_POST["summary"])) {
+            $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
+            header("Location: add.php");
+            return;
+        } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["notify"] = "<p style='color: red'>Email address must contain @</p>";
+            header("Location: add.php");
+            return;
+        } else {
+            $query = "INSERT INTO profile (user_id, first_name, last_name, email, headline, summary) VALUES (:id, :fnm, :lnm, :em, :hln, :sm)";
+            $insert_p = $pdo->prepare($query);
+            $insert_p->execute(array(
+                ':id' => $_SESSION["user_id"],
+                ':fnm' => htmlentities($_POST["first_name"]),
+                ':lnm' => htmlentities($_POST["last_name"]),
+                ':em' => htmlentities($_POST["email"]),
+                ':hln' => htmlentities($_POST["headline"]),
+                ':sm' => htmlentities($_POST["summary"])
+            ));
+
+            if (isset($_POST["year1"]) && isset($_POST["desc1"])) {
+                //Validando los positions
+                for ($i = 1; $i <= 9; $i++) {
+                    if (!isset($_POST["year" . $i])) continue;
+                    if (!isset($_POST["desc" . $i])) continue;
+                    $year = $_POST["year" . $i];
+                    $desc = $_POST["desc" . $i];
+
+                    if (empty($year) || empty($desc)) {
+                        $_SESSION["notify"] = "<p style='color: red'>All fields are required</p>";
+                        header("Location: add.php");
+                        return;
+                    }
+
+                    if (! is_numeric($year)) {
+                        $_SESSION["notify"] = "<p style='color: red'>Position year must be numeric</p>";
+                        header("Location: add.php");
+                        return;
+                    }
+                }
+
+            
+            }
+
+            $_SESSION["notify"] = "<p style='color: green;'>Profile added</p>";
+            header("Location: index.php");
+            return;
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,5 +132,4 @@ if (isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["e
         </script>
     </div>
 </body>
-
 </html>
